@@ -46,7 +46,7 @@ class ClinicalTrials:
 
         Retrieves information from the full studies endpoint, which gets all study fields.
         This endpoint can only output JSON (Or not-supported XML) format and does not allow
-        requests for more than 100 studies at once.
+        requests for more than 5000 studies at once.
 
         Args:
             search_expr (str): A string containing a search expression as specified by
@@ -60,8 +60,8 @@ class ClinicalTrials:
         Raises:
             ValueError: The number of studies can only be between 1 and 100
         """
-        if max_studies > 100 or max_studies < 1:
-            raise ValueError("The number of studies can only be between 1 and 100")
+        if max_studies > 5000 or max_studies < 1:
+            raise ValueError("The number of studies can only be between 1 and 5000")
 
         req = f"full_studies?expr={search_expr}&max_rnk={max_studies}&{self._JSON}"
 
@@ -69,7 +69,7 @@ class ClinicalTrials:
 
         return full_studies
 
-    def get_study_fields(self, search_expr, fields, max_studies=50, fmt="csv"):
+    def get_study_fields(self, search_expr, fields, max_studies=5000, fmt="csv"):
         """Returns study content for specified fields
 
         Retrieves information from the study fields endpoint, which acquires specified information
@@ -94,8 +94,8 @@ class ClinicalTrials:
                 for a list of valid ones.
             ValueError: Format argument has to be either 'csv' or 'json'
         """
-        if max_studies > 1000 or max_studies < 1:
-            raise ValueError("The number of studies can only be between 1 and 1000")
+        if max_studies > 5000 or max_studies < 1:
+            raise ValueError("The number of studies can only be between 1 and 5000")
         elif not set(fields).issubset(self.study_fields):
             raise ValueError(
                 "One of the fields is not valid! Check the study_fields attribute for a list of valid ones."
